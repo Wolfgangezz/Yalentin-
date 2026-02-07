@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>San Valentín 💘</title>
+  <style>
+    :root{
+      --pink1:#ffb6c1;
+      --pink2:#ff6b9a;
+      --pink3:#ff2e73;
+      --glass: rgba(255,255,255,.16);
+      --stroke: rgba(255,255,255,.22);
+      --txt: rgba(255,255,255,.95);
+      --shadow: rgba(0,0,0,.22);
+      --dark: #2a0d16;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+
+    body{
+      margin:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--txt);
+      background: linear-gradient(45deg, var(--pink1), var(--pink2), var(--pink3));
+      background-size: 400% 400%;
+      animation: gradient 14s ease infinite;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @keyframes gradient{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+
+    .wrap{
+      width:min(880px, 94vw);
+      padding:18px;
+      position:relative;
+      z-index:2;
+    }
+
+    .card{
+      background: var(--glass);
+      border: 1px solid var(--stroke);
+      backdrop-filter: blur(14px);
+      border-radius: 22px;
+      padding: 26px 18px;
+      box-shadow: 0 18px 60px var(--shadow);
+      text-align:center;
+      position:relative;
+    }
+
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(22px, 4.2vw, 42px);
+      letter-spacing:.2px;
+    }
+
+    .msg{
+      font-size: clamp(15px, 2.1vw, 18px);
+      line-height:1.35;
+      margin: 0 auto 14px;
+      max-width: 54ch;
+      white-space: pre-wrap;
+    }
+
+    .sub{
+      font-size: 13px;
+      opacity:.85;
+      margin-top: 10px;
+    }
+
+    .btnRow{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top: 14px;
+      position:relative;
+      min-height: 56px;
+    }
+
+    button{
+      border:0;
+      border-radius:999px;
+      padding: 12px 16px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor:pointer;
+      box-shadow: 0 12px 24px var(--shadow);
+      transition: transform .12s ease, filter .12s ease, opacity .12s ease;
+    }
+    button:active{ transform: scale(.98); }
+
+    .primary{
+      background: white;
+      color: var(--dark);
+    }
+    .ghost{
+      background: rgba(0,0,0,.22);
+      color: white;
+      border: 1px solid rgba(255,255,255,.22);
+    }
+
+    .note{
+      margin-top: 12px;
+      font-size: 13px;
+      opacity:.9;
+      min-height: 18px;
+    }
+
+    /* Corazón grande bonito */
+    .bigHeart{
+      width: 88px;
+      height: 88px;
+      margin: 12px auto 16px;
+      position: relative;
+      transform: rotate(45deg);
+      background: #ff2e73;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+      animation: pulse 1.08s ease-in-out infinite;
+    }
+    .bigHeart::before,
+    .bigHeart::after{
+      content:"";
+      position:absolute;
+      width:88px;height:88px;
+      background:#ff2e73;
+      border-radius:50%;
+    }
+    .bigHeart::before{ top:-44px; left:0;}
+    .bigHeart::after{ left:-44px; top:0;}
+
+    @keyframes pulse{
+      0%,100%{ transform: rotate(45deg) scale(1); }
+      50%{ transform: rotate(45deg) scale(1.08); }
+    }
+
+    /* Corazones interactivos */
+    .heartsGrid{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin: 10px 0 6px;
+    }
+    .hbtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.22);
+      border: 1px solid rgba(255,255,255,.22);
+      cursor:pointer;
+      font-size: 22px;
+      box-shadow: 0 10px 18px rgba(0,0,0,.18);
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .hbtn:hover{ transform: translateY(-1px) scale(1.03); }
+    .hbtn:active{ transform: scale(.97); }
+
+    /* Besitos que salen */
+    .kiss{
+      position:fixed;
+      left:0; top:0;
+      transform: translate(-50%,-50%);
+      font-size: 30px;
+      opacity: .95;
+      z-index: 5;
+      pointer-events:none;
+      animation: kissPop .85s ease forwards;
+      filter: drop-shadow(0 10px 12px rgba(0,0,0,.22));
+    }
+    @keyframes kissPop{
+      0%{ transform: translate(-50%,-50%) scale(.6); opacity:0; }
+      20%{ opacity:1; }
+      100%{ transform: translate(-50%,-80%) scale(1.25); opacity:0; }
+    }
+
+    /* Confetti canvas */
+    canvas{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:4;
+      display:none;
+    }
+
+    /* Pequeño “modal” textual */
+    .mini{
+      display:inline-block;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.20);
+      margin-top: 10px;
+      max-width: 62ch;
+      text-align:center;
+    }
+
+    /* Para botón NO que se escape o se vuelva difícil */
+    .noBtn{
+      position: relative;
+    }
+
+    /* Accesibilidad básica */
+    a{color:white}
+
+  </style>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+
+  <!-- Audio: tú pones birdie.mp3 en el repo (misma carpeta que index.html) -->
+  <audio id="song" preload="auto">
+    <source src="birdie.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="wrap">
+    <div class="card">
+      <h1 id="title">💘</h1>
+      <div class="bigHeart" aria-hidden="true"></div>
+
+      <p class="msg" id="msg"></p>
+
+      <div id="extra"></div>
+
+      <div class="btnRow" id="btnRow"></div>
+      <div class="note" id="note"></div>
+
+      <div class="sub" id="sub"></div>
+    </div>
+  </div>
+
+  <script>
+    // =============================
+    // Contenido EXACTO / pedido
+    // =============================
+    const TEXT_1 = "hola bonita, si estás leyendo esto es porque sabes un poco lo que te pediré 👉🏻👈🏻";
+    const TEXT_2 = "Bien, primer paso, me encantaría saber si te gustaría ser mi ♥️♥️♥️San Valentín ♥️♥️♥️, te preguntarás por qué, no?";
+    const WHY_YES = "me gustaría que fueras mi san Valentín porque…";
+    const LIST = "eres el amor de mi vida";
+    const LIST_2 = "eres fantástica, bonita, guapa, bella, preciosa y muy pero muy divertida, alegras mis días, haces que mi mundo se llene de vida y energía";
+    const LEAD = "con todo esto quiero preguntarte si tú quisieraaaaas…";
+    const QUI = "quisiera que?";
+    const FINAL_Q = "QUISIERAS SER M SAN VALENTÍN?";
+
+    // =============================
+    // Estado / UI helpers
+    // =============================
+    const elTitle = document.getElementById("title");
+    const elMsg = document.getElementById("msg");
+    const elBtnRow = document.getElementById("btnRow");
+    const elNote = document.getElementById("note");
+    const elExtra = document.getElementById("extra");
+    const elSub = document.getElementById("sub");
+    const audio = document.getElementById("song");
+
+    let step = 1;
+    let begCount = 0;
+    let yesGrow = 1;
+
+    function clearUI(){
+      elBtnRow.innerHTML = "";
+      elExtra.innerHTML = "";
+      elNote.textContent = "";
+      elSub.textContent = "";
+    }
+
+    function mkBtn(text, cls, onClick){
+      const b = document.createElement("button");
+      b.textContent = text;
+      b.className = cls;
+      b.addEventListener("click", onClick);
+      return b;
+    }
+
+    function setMessage(title, msg){
+      elTitle.textContent = title;
+      elMsg.textContent = msg;
+    }
+
+    function showMini(text){
+      const d = document.createElement("div");
+      d.className = "mini";
+      d.textContent = text;
+      elExtra.appendChild(d);
+    }
+
+    // besitos al click
+    function spawnKiss(x,y){
+      const k = document.createElement("div");
+      k.className = "kiss";
+      k.textContent = "💋";
+      k.style.left = x + "px";
+      k.style.top = y + "px";
+      document.body.appendChild(k);
+      setTimeout(()=>k.remove(), 900);
+    }
+
+    // Corazones interactivos (click -> 💋)
+    function renderInteractiveHearts(count=10){
+      const wrap = document.createElement("div");
+      wrap.className = "heartsGrid";
+      for(let i=0;i<count;i++){
+        const h = document.createElement("div");
+        h.className = "hbtn";
+        h.textContent = (i%3===0) ? "💗" : (i%3===1) ? "💖" : "💘";
+        h.addEventListener("click", (e)=>{
+          const r = h.getBoundingClientRect();
+          spawnKiss(r.left + r.width/2, r.top + r.height/2);
+        });
+        wrap.appendChild(h);
+      }
+      elExtra.appendChild(wrap);
+    }
+
+    // Confetti simple
+    function launchConfetti(){
+      const canvas = document.getElementById("confetti");
+      canvas.style.display = "block";
+      const ctx = canvas.getContext("2d");
+
+      const DPR = Math.max(1, window.devicePixelRatio || 1);
+      function resize(){
+        canvas.width = innerWidth * DPR;
+        canvas.height = innerHeight * DPR;
+        canvas.style.width = innerWidth + "px";
+        canvas.style.height = innerHeight + "px";
+        ctx.setTransform(DPR,0,0,DPR,0,0);
+      }
+      resize();
+      addEventListener("resize", resize);
+
+      const pieces = Array.from({length: 180}, () => ({
+        x: Math.random()*innerWidth,
+        y: -20 - Math.random()*innerHeight*0.2,
+        r: 2 + Math.random()*4,
+        vx: -2 + Math.random()*4,
+        vy: 2 + Math.random()*5,
+        rot: Math.random()*Math.PI,
+        vr: -0.2 + Math.random()*0.4,
+        a: 0.9
+      }));
+
+      let t = 0;
+      function tick(){
+        t++;
+        ctx.clearRect(0,0,innerWidth,innerHeight);
+        for(const p of pieces){
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rot += p.vr;
+          p.vy += 0.02;
+          p.a *= 0.999;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.globalAlpha = Math.max(0, p.a);
+          ctx.fillStyle = "white";
+          ctx.fillRect(-p.r, -p.r, p.r*2, p.r*2);
+          ctx.restore();
+        }
+        if(t < 420){
+          requestAnimationFrame(tick);
+        } else {
+          canvas.style.display = "none";
+        }
+      }
+      tick();
+    }
+
+    // Intentar reproducir audio (requiere interacción del usuario, pero aquí sí hay click)
+    function playSong(){
+      // Si no existe birdie.mp3, no truena feo
+      audio.volume = 0.75;
+      audio.play().catch(()=>{
+        elSub.textContent = "Nota: Para que suene la rola, sube un archivo llamado birdie.mp3 al repo (misma carpeta que index.html).";
+      });
+    }
+
+    // Botón NO: primer “rechazo” debe preguntar “enserio:(?”
+    function rejectFirst(){
+      elNote.textContent = "enserio:(?";
+    }
+
+    // En el paso 2, si dice NO -> “tú dale a que si”
+    function noStep2(){
+      elNote.textContent = "tú dale a que si 🙂";
+    }
+
+    // En el final, NO insiste y el sí crece
+    function noFinal(){
+      begCount++;
+      const pleas = [
+        "porfis 🥺",
+        "ándale di que sí 😭",
+        "no seas mala, por favor 😔",
+        "we… porfa 😵‍💫",
+        "te lo ruego, bonita 😤💗",
+        "ya no aguanto, di que sí 😩",
+        "PLEASE 😭🙏",
+        "mi corazón se está haciendo chiquito 💔",
+        "ok última… (mentira) di que sí 😌"
+      ];
+      elNote.textContent = pleas[Math.min(begCount-1, pleas.length-1)];
+
+      // crece el sí
+      yesGrow = Math.min(2.2, yesGrow + 0.14);
+      const yesBtn = document.getElementById("yesFinal");
+      if(yesBtn){
+        yesBtn.style.transform = `scale(${yesGrow})`;
+      }
+    }
+
+    // “Quisiera que?” interactivo
+    function renderQuisiera(){
+      const b = mkBtn(`"${QUI}"`, "ghost", ()=>{
+        // Reemplaza por grito final
+        step = 4;
+        render();
+      });
+      elBtnRow.appendChild(b);
+      elNote.textContent = "toca ahí 👆";
+    }
+
+    function render(){
+      clearUI();
+
+      if(step === 1){
+        setMessage("👀", TEXT_1);
+        elSub.textContent = "Respira. No pasa nada (sí pasa).";
+        elBtnRow.appendChild(mkBtn("Continuar", "primary", ()=>{
+          step = 2;
+          render();
+        }));
+        elBtnRow.appendChild(mkBtn("Rechazar", "ghost noBtn", rejectFirst));
+        return;
+      }
+
+      if(step === 2){
+        setMessage("Paso 1 💌", TEXT_2);
+        elBtnRow.appendChild(mkBtn("Sí", "primary", ()=>{
+          step = 3;
+          render();
+        }));
+        elBtnRow.appendChild(mkBtn("No", "ghost", noStep2));
+        elSub.textContent = "Si te sales de aquí me da algo (mentira… bueno no).";
+        return;
+      }
+
+      if(step === 3){
+        // Parte del porqué + corazones interactivos que sacan besos
+        setMessage("Porque… 💖", `${WHY_YES}\n\n${LIST} 💞\n${LIST_2}\n\n${LEAD}`);
+        renderInteractiveHearts(12);
+        showMini("Tip: pica los corazones y salen besitos 💋");
+        renderQuisiera();
+        return;
+      }
+
+      if(step === 4){
+        // GRAN PREGUNTA + música + sí/no con sí creciendo
+        setMessage("OK…", FINAL_Q);
+        elSub.textContent = "Si hay birdie.mp3, aquí suena.";
+        playSong();
+
+        const yes = mkBtn("Sí 💖", "primary", ()=>{
+          // final feliz
+          clearUI();
+          setMessage("YA ESTÁ 😤💘", "Sabía que sí.\n\nAhora ven y dame un beso (o dos… o los que quieras). 💋");
+          renderInteractiveHearts(16);
+          showMini("Screenshot esto y mándamelo, para presumir 😌");
+          launchConfetti();
+          // pausa rola (opcional: no la pares)
+          // audio.pause();
+        });
+        yes.id = "yesFinal";
+
+        const no = mkBtn("No 🙃", "ghost", noFinal);
+
+        elBtnRow.appendChild(yes);
+        elBtnRow.appendChild(no);
+        elNote.textContent = "No le pienses mucho… 😌";
+        return;
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
