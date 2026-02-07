@@ -254,7 +254,7 @@
     const LIST_2 = "eres fantástica, bonita, guapa, bella, preciosa y muy pero muy divertida, alegras mis días, haces que mi mundo se llene de vida y energía";
     const LEAD = "con todo esto quiero preguntarte si tú quisieraaaaas…";
     const QUI = "quisiera que?";
-    const FINAL_Q = "QUISIERAS SER M SAN VALENTÍN?";
+    const FINAL_Q = "QUISIERAS SER MI SAN VALENTÍN?";
 
     // =============================
     // Estado / UI helpers
@@ -405,13 +405,13 @@
     function noFinal(){
       begCount++;
       const pleas = [
-        "porfis 🥺",
+        "pofis 🥺",
         "ándale di que sí 😭",
-        "no seas mala, por favor 😔",
-        "we… porfa 😵‍💫",
+        "no seas mala ona, por favor 😔",
+        "amooor porfa 😵‍💫",
         "te lo ruego, bonita 😤💗",
         "ya no aguanto, di que sí 😩",
-        "PLEASE 😭🙏",
+        "POFAVOOO 😭🙏",
         "mi corazón se está haciendo chiquito 💔",
         "ok última… (mentira) di que sí 😌"
       ];
@@ -465,7 +465,6 @@
         // Parte del porqué + corazones interactivos que sacan besos
         setMessage("Porque… 💖", `${WHY_YES}\n\n${LIST} 💞\n${LIST_2}\n\n${LEAD}`);
         renderInteractiveHearts(12);
-        showMini("Tip: pica los corazones y salen besitos 💋");
         renderQuisiera();
         return;
       }
@@ -479,9 +478,9 @@
         const yes = mkBtn("Sí 💖", "primary", ()=>{
           // final feliz
           clearUI();
-          setMessage("YA ESTÁ 😤💘", "Sabía que sí.\n\nAhora ven y dame un beso (o dos… o los que quieras). 💋");
+          setMessage("YA ESTÁ 😤💘", "Sabía que sí.\n\nAhora ven y dame un beso (o dos o tres o cuatro o los que quieras). ");
           renderInteractiveHearts(16);
-          showMini("Screenshot esto y mándamelo, para presumir 😌");
+          showMini("espero te haya gustado mi pedida 😌");
           launchConfetti();
           // pausa rola (opcional: no la pares)
           // audio.pause();
